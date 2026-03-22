@@ -1,0 +1,52 @@
+[
+  {
+    "_id": "electronics_001",
+    "name": "Gaming Laptop",
+    "category": "Electronics",
+    "price": 1299.99,
+    "brand": "Asus",
+    "warranty": {
+      "years": 2,
+      "type": "Manufacturer Warranty"
+    },
+    "specs": {
+      "processor": "Intel Core i7",
+      "ram": "16GB",
+      "storage": "512GB SSD"
+    },
+    "voltage": "19V",
+    "weight": "2.5kg"
+  },
+  {
+    "_id": "clothing_001",
+    "name": "Cotton T-Shirt",
+    "category": "Clothing",
+    "price": 19.99,
+    "brand": "Myntra",
+    "size": "M",
+    "color": "Blue",
+    "material": "100% Cotton",
+    "care_instructions": [
+      "Machine wash cold",
+      "Tumble dry low",
+      "Do not bleach"
+    ],
+    "tags": ["casual", "summer"]
+  },
+  {
+    "_id": "groceries_001",
+    "name": "Organic Whole Milk",
+    "category": "Groceries",
+    "price": 3.49,
+    "brand": "Amul",
+    "expiry_date": "2024-12-31",
+    "nutritional_info": {
+      "calories": 150,
+      "fat": "8g",
+      "protein": "8g",
+      "carbohydrates": "12g"
+    },
+    "volume": "1L",
+    "organic": true
+  }
+]
