@@ -38,6 +38,7 @@ async function main() {
     console.log('Updated document count:', updateResult.modifiedCount);
 
     // OP5: createIndex() — create an index on category field and explain why
+    
     // Creating an index on the 'category' field improves query performance for operations that filter by category,
     // such as finding all products in a specific category. This is especially useful in an e-commerce platform
     // where category-based searches are common, reducing lookup time from O(n) to O(log n).
