@@ -1,0 +1,21 @@
+## Storage Systems
+
+For predicting patient readmission risk using historical treatment data, I chose a **Feature Store** integrated with the Data Lakehouse (e.g., using Delta Lake and MLflow). This is perfect because readmission models require consistent, versioned features like past diagnoses, medication history, and vital trends. Feature stores prevent feature drift by storing engineered data (e.g., "days since last cardiac event") centrally, making it easy to retrain models on fresh data without rebuilding pipelines. In healthcare, this ensures reliable predictions that can influence patient care decisions, reducing readmissions through early interventions.
+
+For allowing doctors to query patient history in plain English, I selected a **Transactional DB** like PostgreSQL for storing patient records. This supports fast, ACID-compliant queries for individual patient data, which is essential for real-time access during consultations. The NLP service (e.g., using LangChain with a vector DB) can connect directly to this DB to fetch context for natural language questions like "Show me this patient's allergy history." It's not about big analytics here—it's about quick, reliable lookups that doctors can trust without delays.
+
+For generating monthly reports on bed occupancy, department-wise costs, and other KPIs, I went with an **OLAP Warehouse** such as Snowflake. Reports involve complex aggregations across time, departments, and patients, which OLAP handles efficiently with pre-computed cubes and star schemas. This separates heavy analytical workloads from operational systems, ensuring reports run smoothly without slowing down patient-facing apps. In a hospital, this means management gets timely insights for budgeting and resource allocation.
+
+For streaming and storing real-time vitals from ICU monitoring devices, I chose a **Time-series DB** like InfluxDB or TimescaleDB. Vitals (heart rate, blood pressure, oxygen levels) are high-volume, timestamped data that needs sub-second ingestion and queries like "average BP over the last hour." General DBs can't handle the write load or temporal optimizations, but time-series DBs compress data, support retention policies, and enable real-time dashboards for nurses and doctors.
+
+## OLTP vs OLAP Boundary
+
+The transactional (OLTP) boundary ends at the **Transactional DB** and **Time-series DB**, focused on operational efficiency. These handle immediate, user-facing tasks: updating patient records during visits, querying history for a specific patient, or monitoring live vitals in ICU. They're designed for low-latency, high-concurrency operations with ACID properties to ensure data integrity in critical healthcare scenarios.
+
+The analytical (OLAP) system begins at the **Data Lakehouse**, where raw, unstructured data from ETL and streaming gets cleaned, transformed, and enriched into structured datasets. This is the pivot point—data flows from operational DBs into the lakehouse for broader analysis. From there, it feeds the **Feature Store** for ML feature engineering and the **OLAP Warehouse** for reporting. The boundary prevents analytical queries from bogging down transactional systems, maintaining performance for patient care while enabling insights like predictive analytics and trend reports.
+
+## Trade-offs
+
+One major trade-off is the increased complexity and maintenance cost from using multiple specialized storage systems (time-series, transactional, lakehouse, OLAP) rather than a single, general-purpose database. This can lead to data silos, integration headaches, and higher operational overhead, especially in a resource-constrained hospital environment where IT teams are small.
+
+To mitigate, I'd adopt a unified data platform like Databricks Lakehouse or AWS Lake Formation, which combines OLTP, OLAP, and time-series capabilities in one ecosystem. This reduces the number of tools, automates data pipelines with tools like Apache Airflow, and uses cloud-managed services to cut costs. Regular data governance audits and automated testing would ensure consistency, while training staff on the platform minimizes the learning curve.
